@@ -28,7 +28,7 @@ func initGfx() {
     ctx = canvas.Call("getContext", "2d")
     win = js.Global.Get("window")
     win.Call("addEventListener", "resize", handleResize)
-    doc.Get("body").Set("style", "background-color:grey")
+    doc.Get("body").Set("style", "background-color:grey;height:100%;overflow:hidden")
     doc.Get("body").Call("appendChild", canvas)
     fitCanvas()
 }
