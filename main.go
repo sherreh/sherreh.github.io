@@ -9,8 +9,8 @@ var doc, win, canvas, ctx *js.Object
 var width, height int
 
 func fitCanvas() {
-    width = win.Get("innerWidth").Int()-20
-    height = win.Get("innerHeight").Int()-20
+    width = win.Get("innerWidth").Int()
+    height = win.Get("innerHeight").Int()
     canvas.Set("width", width)
     canvas.Set("height", height)
     ctx.Set("fillStyle", "black")
@@ -28,7 +28,7 @@ func initGfx() {
     ctx = canvas.Call("getContext", "2d")
     win = js.Global.Get("window")
     win.Call("addEventListener", "resize", handleResize)
-    doc.Get("body").Set("style", "background-color:grey;touch-action:none;-webkit-overflow-scrolling:none;overflow:hidden;overscroll-behavior:none")
+    doc.Get("body").Set("style", "background-color:grey;touch-action:none;-webkit-overflow-scrolling:none;overflow:hidden;overscroll-behavior:none;padding:0;margin:0")
     doc.Get("body").Call("appendChild", canvas)
     fitCanvas()
 }
