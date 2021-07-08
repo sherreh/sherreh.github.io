@@ -2,22 +2,37 @@ package main
 
 import (
     "github.com/gopherjs/gopherjs/js"
-    //"log"
+    "log"
 )
 
-var date *js.Object
-var h1 *js.Object
+var doc, win, canvas, ctx *js.Object
+var width, height int
 
-func fn() {
-    h1.Set("innerHTML", date.New())
+func fitCanvas() {
+    width = win.Get("innerWidth").Int()-20
+    height = win.Get("innerHeight").Int()-20
+    canvas.Set("width", width)
+    canvas.Set("height", height)
+    ctx.Set("fillStyle", "black")
+    ctx.Call("fillRect", 0, 0, width, height)
+}
+
+func handleResize(event *js.Object) {
+    fitCanvas()
+    log.Printf("Resize: %dx%d", width, height)
+}
+
+func initGfx() {
+    doc = js.Global.Get("document")
+    canvas = doc.Call("createElement", "canvas")
+    ctx = canvas.Call("getContext", "2d")
+    win = js.Global.Get("window")
+    win.Call("addEventListener", "resize", handleResize)
+    doc.Get("body").Set("style", "background-color:grey")
+    doc.Get("body").Call("appendChild", canvas)
+    fitCanvas()
 }
 
 func main() {
-    doc := js.Global.Get("document")
-    h1 = doc.Call("createElement", "h1")
-    date = js.Global.Get("Date")
-    h1.Set("innerHTML", date.New())
-    h1.Set("id", "clock")
-    doc.Get("body").Call("appendChild", h1)
-    js.Global.Call("setInterval", fn, 1000)
+    initGfx()
 }
