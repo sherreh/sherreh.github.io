@@ -1,7 +1,7 @@
 package main
 
-import "fmt"
+import "github.com/gopherjs/gopherjs/js"
 
 func main() {
-    fmt.Println("Hello from Go/WASM")
+    js.Global.Call("alert", "Hello from Go")
 }
